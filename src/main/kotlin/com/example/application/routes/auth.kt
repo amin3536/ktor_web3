@@ -17,13 +17,13 @@ fun  Route.auth() {
     post("/register") {
         val user = call.receive<User>()
         val id = service.createUser(user)
-        call.respond(HttpStatusCode.Created, id)
+        call.respond(HttpStatusCode.Created, hashMapOf("id" to id))
     }
-    val secret =    environment?.config?.property("jwt.secret")?.getString()
-    val issuer =    environment?.config?.property("jwt.issuer")?.getString()
-    val audience =  environment?.config?.property("jwt.audience")?.getString()
 //    val myRealm =   environment?.config?.property("jwt.realm")?.getString()
     post("/login") {
+        val secret =    call.application.environment.config.property("jwt.secret").getString()
+        val issuer =     call.application.environment.config.property("jwt.issuer").getString()
+        val audience =   call.application.environment.config.property("jwt.audience").getString()
         val user=call.receive<User>()
         if (service.verifyUser(user)){
             val token = JWT.create()
@@ -32,7 +32,8 @@ fun  Route.auth() {
                 .withClaim("mail", user.mail)
                 .withExpiresAt(Date(System.currentTimeMillis() + 60000))
                 .sign(Algorithm.HMAC256(secret))
-            call.respond(hashMapOf("token" to token ))
+            return@post call.respond(HttpStatusCode.OK,hashMapOf("token" to token ))
         }
+        throw RuntimeException("something happen please wait")
     }
 }

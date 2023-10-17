@@ -13,6 +13,8 @@ import io.ktor.util.logging.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.slf4j.event.Level
+import kotlin.test.assertContains
+
 
 class AuthTest : BaseTest() {
 
@@ -26,6 +28,8 @@ class AuthTest : BaseTest() {
             install(ContentNegotiation) {
                 json()
             }
+//            install(Logging)
+
         }
         val response = client.post("/register") {
             headers {
@@ -34,9 +38,11 @@ class AuthTest : BaseTest() {
             setBody(User("aminmir@gmail.com", "123455"))
         }
         val body=response.bodyAsText().toString()
-        println(body)
+        println("register body: $body")
 
         Assertions.assertEquals(HttpStatusCode.Created, response.status)
+        assertContains(body,Regex( """\{"id":(".*"|\d+)\}"""))
+
 
         val loginResponse = client.post("/login") {
             headers {
@@ -44,10 +50,11 @@ class AuthTest : BaseTest() {
             }
             setBody(User("aminmir@gmail.com", "123455"))
         }
-        val loginBody=response.bodyAsText()
-        println(loginBody)
+        val loginBody=loginResponse.bodyAsText()
+        println("login body: $loginBody")
 
         Assertions.assertEquals(HttpStatusCode.OK, loginResponse.status)
+        assertContains(loginBody,Regex( """\{"token":(".*"|\d+)\}"""))
     }
 
 }
