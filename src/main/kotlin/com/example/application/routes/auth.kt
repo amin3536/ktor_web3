@@ -15,14 +15,14 @@ import java.util.*
 fun  Route.auth() {
     val service by inject<UserService>()
     post("/register") {
-        val user=call.receive<User>()
-        val id=service.createUser(user)
-        call.respond(HttpStatusCode.Created,id)
+        val user = call.receive<User>()
+        val id = service.createUser(user)
+        call.respond(HttpStatusCode.Created, id)
     }
     val secret =    environment?.config?.property("jwt.secret")?.getString()
     val issuer =    environment?.config?.property("jwt.issuer")?.getString()
     val audience =  environment?.config?.property("jwt.audience")?.getString()
-    val myRealm =   environment?.config?.property("jwt.realm")?.getString()
+//    val myRealm =   environment?.config?.property("jwt.realm")?.getString()
     post("/login") {
         val user=call.receive<User>()
         if (service.verifyUser(user)){
@@ -32,7 +32,7 @@ fun  Route.auth() {
                 .withClaim("mail", user.mail)
                 .withExpiresAt(Date(System.currentTimeMillis() + 60000))
                 .sign(Algorithm.HMAC256(secret))
-            call.respond(hashMapOf("token" to token))
+            call.respond(hashMapOf("token" to token ))
         }
     }
 }

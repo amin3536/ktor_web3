@@ -45,7 +45,7 @@ class UserRepositoryImp(database:Database) : BaseRepository(), UserRepository {
         dbQuery {
             Users.update({ Users.id eq id }) {
                 it[mail] = user.mail
-                it[mail] = user.mail
+                it[password] = user.password
             }
         }
     }
@@ -64,5 +64,5 @@ class UserRepositoryImp(database:Database) : BaseRepository(), UserRepository {
         }
     }
 
-    private fun Query.convertTOUser()=this.map{ User(it[Users.mail], it[Users.mail]) }
+    private fun Query.convertTOUser()=this.map{ User(it[Users.mail], it[Users.password],it[Users.id]) }
 }

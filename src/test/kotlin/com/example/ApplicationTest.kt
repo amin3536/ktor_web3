@@ -5,7 +5,9 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import kotlin.test.*
+import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.Test
+
 
 class ApplicationTest {
     @Test
@@ -15,7 +17,7 @@ class ApplicationTest {
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+            assertEquals("Hello World!2", bodyAsText())
         }
     }
 }

@@ -44,14 +44,18 @@ sourceSets{
     }
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-auth-jwt-jvm")
     implementation("io.ktor:ktor-server-compression-jvm")
     implementation("io.ktor:ktor-server-swagger-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     implementation("io.ktor:ktor-server-status-pages:$ktor_version")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-crypt:$exposed_version")
@@ -70,15 +74,16 @@ dependencies {
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.18")
 
     //bcrypt
-    implementation("com.ToxicBakery.library.bcrypt:bcrypt:+")
+    implementation("com.ToxicBakery.library.bcrypt:bcrypt:1.0.9")
 
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
-
-    testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    testImplementation ("io.kotest:kotest-runner-junit5:5.7")
-    testImplementation ("io.kotest.extensions:kotest-assertions-ktor:2.0.0")
-    testImplementation ("io.kotest.extensions:kotest-extensions-koin:1.3.0")
+    testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+//    testImplementation("io.kotest:kotest-framework-discovery-jvm:5.7.2")
+//    testImplementation ("io.kotest.extensions:kotest-assertions-ktor:2.0.0")
+//    testImplementation ("io.kotest.extensions:kotest-extensions-koin:1.3.0")
 
 
     implementation(kotlin("stdlib"))
@@ -86,10 +91,7 @@ dependencies {
     ksp("io.insert-koin:koin-ksp-compiler:$koin_ksp_version")
 
 }
+
 ksp {
     arg("KOIN_CONFIG_CHECK","true")
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
 }

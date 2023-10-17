@@ -4,7 +4,7 @@ import io.ktor.server.auth.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(var mail: String, var password:String): Principal
+data class User(var mail: String, var password:String,var id : Int?=null ,): Principal
 
 interface UserRepository {
 

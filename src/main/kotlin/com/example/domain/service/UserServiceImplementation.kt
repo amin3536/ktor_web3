@@ -10,7 +10,7 @@ import java.nio.charset.Charset
 class UserServiceImplementation(private val repository: UserRepository) : UserService {
 
     companion object{
-        val SALT=64;
+        val SALT=16;
     }
     override suspend  fun createUser(user:User): Int {
         user.password=Bcrypt.hash(user.password,SALT).toString(Charset.defaultCharset())
@@ -19,7 +19,7 @@ class UserServiceImplementation(private val repository: UserRepository) : UserSe
 
     override suspend fun verifyUser(user: User):Boolean {
         val result=repository.findByEmail(user.mail)
-        result?: throw IllegalArgumentException("\"email\": \"email not found\"")
+        result?: throw  IllegalArgumentException("\"email\": \"email not found\"")
         return result.password.let {
             if (!Bcrypt.verify(user.password,it.toByteArray()))
                 throw IllegalArgumentException("\"password\": \"email or  password is wrong\"")

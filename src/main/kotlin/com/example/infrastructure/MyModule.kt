@@ -5,7 +5,7 @@ import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Single
 
 @org.koin.core.annotation.Module
-@ComponentScan
+@ComponentScan("com.example")
 class MyModule {
 
     @Single
