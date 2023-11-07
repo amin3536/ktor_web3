@@ -1,4 +1,4 @@
-package com.example.repositoryImpmentions
+package com.example.infrastructure.repositoryImpmentions
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

@@ -1,4 +1,4 @@
-package com.example.repositoryImpmentions
+package com.example.infrastructure.repositoryImpmentions
 
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
