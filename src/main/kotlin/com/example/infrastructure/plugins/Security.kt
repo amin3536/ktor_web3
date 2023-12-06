@@ -29,7 +29,7 @@ fun Application.configureSecurity() {
                 if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
             }
             challenge { defaultScheme, realm ->
-                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
+                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired realm=${realm},schema=${defaultScheme}")
             }
         }
     }

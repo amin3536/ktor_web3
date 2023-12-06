@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.annotation.Singleton
 import com.example.domain.entity.User
 import com.example.domain.entity.UserRepository
+import com.example.domain.entity.UserStatus
 
 
 @Singleton(binds = [UserRepository::class])
@@ -14,7 +15,7 @@ class UserRepositoryImp(database:Database) : BaseRepository(), UserRepository {
         val id = integer("id").autoIncrement()
         val mail = varchar("mail", length = 150).uniqueIndex()
         val password = varchar("password",length = 150)
-
+        val status = byte("status")
         override val primaryKey = PrimaryKey(id)
     }
 
@@ -64,5 +65,5 @@ class UserRepositoryImp(database:Database) : BaseRepository(), UserRepository {
         }
     }
 
-    private fun Query.convertTOUser()=this.map{ User(it[Users.mail], it[Users.password],it[Users.id]) }
+    private fun Query.convertTOUser()=this.map{ User(it[Users.mail], it[Users.password],it[Users.id], UserStatus.find(it[Users.status].toInt())) }
 }

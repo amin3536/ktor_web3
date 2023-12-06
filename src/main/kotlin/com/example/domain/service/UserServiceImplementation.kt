@@ -17,6 +17,7 @@ class UserServiceImplementation(private val repository: UserRepository) : UserSe
         return repository.create(user)
     }
 
+    @Throws(IllegalArgumentException::class)
     override suspend fun verifyUser(user: User):Boolean {
         val result=repository.findByEmail(user.mail)
         result?: throw  IllegalArgumentException("\"email\": \"email not found\"")

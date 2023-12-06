@@ -6,9 +6,12 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class User(var mail: String, var password:String,var id : Int?=null ,var state:State ): Principal
-enum class State(){
-    ACTIVE,IN_ACTIVE
+data class User(var mail: String, var password:String,var id : Int?=null ,var state:UserStatus ): Principal
+enum class UserStatus(val int: Int){
+    ACTIVE(1),IN_ACTIVE(0);
+    companion object {
+        fun find(value: Int): UserStatus = UserStatus.values().find { it.int == value }?:ACTIVE
+    }
 }
 
 interface UserRepository {
